@@ -5,7 +5,7 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 import axios from "axios";
 
-export default () => {
+const Page = () => {
   const [state, setState] = useState({});
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -55,7 +55,7 @@ export default () => {
           </div>
           <button className="btn btn-primary w-full mt-4">Sign In</button>
           <div className="mt-4">
-            Don't have an account?{" "}
+            {"Don't have an account?"}{" "}
             <Link href="/signup" className="text-blue-500 underline">
               Signup
             </Link>
@@ -65,3 +65,5 @@ export default () => {
     </div>
   );
 };
+
+export default Page;

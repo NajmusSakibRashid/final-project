@@ -4,7 +4,7 @@ import { useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 
-export default () => {
+const Page = () => {
   const [state, setState] = useState({});
 
   const handleSubmit = async (e) => {
@@ -90,3 +90,5 @@ export default () => {
     </div>
   );
 };
+
+export default Page;
