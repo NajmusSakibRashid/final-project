@@ -20,7 +20,7 @@ const Page = () => {
     try {
       const response = await axios.post("/api/signup", state);
       toast.success(response.data.message);
-      window.location.href = "/login";
+      window.location.href = "/signin";
     } catch (error) {
       console.log(error);
       toast.error("Error signing up");
