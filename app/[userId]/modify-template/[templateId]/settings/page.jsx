@@ -1,6 +1,9 @@
 "use client";
 import { useState, useRef, useEffect } from "react";
 import { RxCross2 } from "react-icons/rx";
+import upload from "../../../../utility/upload";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 const Tag = ({ children, setData, index }) => {
   return (
@@ -20,14 +23,26 @@ const Tag = ({ children, setData, index }) => {
   );
 };
 
-const Page = () => {
+const Page = ({ params }) => {
   const [data, setData] = useState({
     title: "",
     description: "",
-    topic: "",
+    topic: "Education",
     image: "",
     tags: [],
   });
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`/api/template/${params.templateId}`);
+        response.data.tags = response.data.tags.split(",");
+        setData(response.data);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    fetchData();
+  }, [params.templateId]);
   const [topic, setTopic] = useState([
     "Education",
     "Quiz",
@@ -35,22 +50,43 @@ const Page = () => {
     "Feedback",
     "Other",
   ]);
-  const [tags, setTags] = useState(["ababa", "babab", "ababab", "bababa"]);
-  const ref = useRef(null);
+  const [tags, setTags] = useState([]);
+  const [tmpTag, setTmpTag] = useState("");
   const handleTag = (e) => {
-    setData((data) => ({ ...data, tags: [...data.tags, ref.current.value] }));
+    setData((data) => ({ ...data, tags: [...data.tags, tmpTag] }));
+    setTmpTag("");
+  };
+  const handleSubmit = async () => {
+    console.log(data);
+    console.log(data.tags.join(","));
+    try {
+      const response = await axios.put("/api/template", { ...data, ...params });
+      toast.success(response.data.message, { autoClose: 500 });
+    } catch (err) {
+      console.log(err);
+      toast.error("Error updating template", { autoClose: 500 });
+    }
+  };
+  const handleChange = (e) => {
+    setData((data) => ({ ...data, [e.target.name]: e.target.value }));
+  };
+  const handleFileChange = async (e) => {
+    const downloadURL = await upload(e.target.files[0]);
+    setData((data) => ({ ...data, image: downloadURL }));
   };
   // useEffect(() => {
   //   console.log(data);
   // }, [data]);
   return (
-    <div className="flex flex-col items-center">
+    <div className="flex flex-col items-center p-8">
       <div>
         <h1 className="text-2xl font-bold mt-4">Settings</h1>
       </div>
       <div className="flex max-w-lg w-full justify-between bg-white items-center p-4 m-4 rounded-md border-t-4 border-blue-300">
         <label htmlFor="title">Title</label>
         <input
+          onChange={handleChange}
+          value={data.title}
           type="text"
           name="title"
           className="p-2 focus:bg-base-300 focus:outline-none rounded-md border-b border-gray-300 w-full max-w-64"
@@ -60,6 +96,8 @@ const Page = () => {
       <div className="flex max-w-lg w-full justify-between bg-white items-center p-4 m-4 rounded-md border-t-4 border-blue-300">
         <label htmlFor="description">Description</label>
         <textarea
+          onChange={handleChange}
+          value={data.description}
           type="description"
           name="description"
           className="p-2 focus:bg-base-300 focus:outline-none rounded-md border-b border-gray-300 w-full max-w-64"
@@ -69,10 +107,12 @@ const Page = () => {
       <div className="flex max-w-lg w-full justify-between bg-white items-center p-4 m-4 rounded-md border-t-4 border-blue-300">
         <label htmlFor="topic">Topic</label>
         <select
+          onChange={handleChange}
+          value={data.topic}
           className="w-full max-w-64 p-2 border-b border-gray-300 rounded-md focus:bg-base-300 focus:outline-none"
           id="topic"
           name="topic"
-          defaultValue={topic[0]}
+          // defaultValue={topic[0]}
         >
           {topic.map((topic, index) => (
             <option key={index} value={topic}>
@@ -84,6 +124,7 @@ const Page = () => {
       <div className="flex max-w-lg w-full justify-between bg-white items-center p-4 m-4 rounded-md border-t-4 border-blue-300">
         <label htmlFor="title">Image</label>
         <input
+          onChange={handleFileChange}
           type="file"
           name="image"
           className="p-2 focus:bg-base-300 focus:outline-none rounded-md border-b border-gray-300 w-full max-w-64"
@@ -101,15 +142,18 @@ const Page = () => {
         <label htmlFor="tags">Tags</label>
         <div className="flex gap-2 w-full max-w-64 relative">
           <input
+            onChange={(e) => {
+              setTmpTag(e.target.value);
+            }}
+            value={tmpTag}
             type="text"
             name="tags"
             className="p-2 focus:bg-base-300 focus:outline-none rounded-md border-b border-gray-300 w-full max-w-64"
             placeholder="tags"
-            ref={ref}
           />
-          <div className="absolute left-0 top-full mt-2 bg-base-300 p-4">
-            {tags.length > 0 &&
-              tags.map((tag, index) => (
+          {tags.length > 0 && (
+            <div className="absolute left-0 top-full mt-2 bg-base-300 p-4">
+              {tags.map((tag, index) => (
                 <button
                   key={index}
                   className="w-full text-left"
@@ -118,12 +162,16 @@ const Page = () => {
                   {tag}
                 </button>
               ))}
-          </div>
+            </div>
+          )}
           <button className="btn" onClick={handleTag}>
             Add
           </button>
         </div>
       </div>
+      <button className="btn" onClick={handleSubmit}>
+        Submit
+      </button>
     </div>
   );
 };
