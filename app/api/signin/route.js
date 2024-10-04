@@ -2,7 +2,6 @@ import { NextResponse } from "next/server";
 import { sql } from "@vercel/postgres";
 import crypto from "crypto";
 import jwt from "jsonwebtoken";
-import path from "path";
 
 export async function POST(request) {
   try {
@@ -29,7 +28,10 @@ export async function POST(request) {
     }
     const key = process.env.HMAC_SECRET;
     const token = jwt.sign({ email, id: rows[0].id }, key, { expiresIn: "1h" });
-    let response = NextResponse.json({ message: "Signed in successfully" });
+    let response = NextResponse.json({
+      message: "Signed in successfully",
+      userId: rows[0].id,
+    });
     response.cookies.set("token", token, {
       maxAge: 3600,
       httpOnly: true,

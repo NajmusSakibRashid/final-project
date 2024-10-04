@@ -3,6 +3,7 @@ import "./globals.css";
 import "@liveblocks/react-ui/styles.css";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import HomeNavbar from "./components/UserHomeNavbar";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",

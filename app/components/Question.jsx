@@ -26,7 +26,7 @@ const Question = ({
       onDrag={onDrag}
     >
       <button
-        className="bg-base-300 rotate-90 rounded-md p-2 absolute top-0 right-1/2 translate-x-1/2 active:bg-base-200"
+        className="bg-base-300 rotate-90 rounded-md rounded-l-none p-2 absolute top-0 right-1/2 translate-x-1/2 active:bg-base-200"
         onMouseDown={() => setDrag(true)}
         onMouseUp={() => setDrag(false)}
       >
