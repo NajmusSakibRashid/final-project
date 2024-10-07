@@ -2,8 +2,9 @@ import Question from "./Question";
 import EditQuestion from "./EditQuestion";
 import { useRef, useState } from "react";
 import AddQuestion from "./AddQuestion";
+import axios from "axios";
 
-const QuestionContainer = ({ questions, setQuestions, mode }) => {
+const QuestionContainer = ({ questions, setQuestions, mode, templateId }) => {
   const ref = useRef([]);
   const [indicator, setIndicator] = useState([]);
   const getIndex = (y) => {
@@ -17,19 +18,30 @@ const QuestionContainer = ({ questions, setQuestions, mode }) => {
     // e.preventDefault();
     // console.log(getIndex(e.clientY));
     const index = getIndex(e.clientY);
+
+    const updateQuestion = (question, index) => {
+      try {
+        const putData = async (question, index) => {
+          await axios.put(`/api/questions/${question.id}`, { index });
+        };
+        putData(question, index);
+      } catch (error) {
+        console.log(error);
+        toast.error("Failed to update question", { autoClose: 500 });
+      }
+    };
+
     if (index != -1) {
       setQuestions((question) => {
         const newQuestions = [...question];
         const temp = newQuestions[ind];
         newQuestions.splice(ind, 1);
         newQuestions.splice(index, 0, temp);
+        newQuestions.forEach(updateQuestion);
         return newQuestions;
       });
     }
-    setIndicator((indicator) => {
-      const newIndicator = [];
-      return newIndicator;
-    });
+    setIndicator([]);
   };
   const onDrag = (e) => {
     if (e.clientY + 10 > document.body.clientHeight) {
@@ -67,6 +79,7 @@ const QuestionContainer = ({ questions, setQuestions, mode }) => {
               mode={mode}
               dragHandle={dragHandle}
               onDrag={onDrag}
+              templateId={templateId}
             >
               {question}
             </EditQuestion>
@@ -92,7 +105,11 @@ const QuestionContainer = ({ questions, setQuestions, mode }) => {
         {indicator[questions.length] && (
           <div className="border-b-4 border-blue-500 w-full"></div>
         )}
-        <AddQuestion setQuestions={setQuestions} />
+        <AddQuestion
+          setQuestions={setQuestions}
+          templateId={templateId}
+          questions={questions}
+        />
       </div>
     </div>
   );

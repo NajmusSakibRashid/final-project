@@ -91,7 +91,7 @@ export async function POST(request, { params }) {
     const bulk_string = data.users
       .map((user) => `(${params.templateId},${user.id})`)
       .join(",");
-    const query = `insert into template_permission (template_id,user_id) values ${bulk_string}`;
+    const query = `insert into template_permission (template_id,user_id) values ${bulk_string} on conflict (template_id,user_id) do nothing`;
     await sql.query(query);
     return NextResponse.json({ message: "User added" });
   } catch (err) {

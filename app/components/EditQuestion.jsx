@@ -1,6 +1,8 @@
 import { HiDotsHorizontal } from "react-icons/hi";
 import { MdOutlineDragIndicator } from "react-icons/md";
 import { useState, useEffect } from "react";
+import { toast } from "react-toastify";
+import axios from "axios";
 
 const EditQuestion = ({
   children,
@@ -9,6 +11,7 @@ const EditQuestion = ({
   mode,
   dragHandle,
   onDrag,
+  templateId,
 }) => {
   const [drag, setDrag] = useState(false);
   const { id, title, description, type } = children;
@@ -21,6 +24,18 @@ const EditQuestion = ({
       };
       return newQuestions;
     });
+  };
+  const deleteHandler = () => {
+    try {
+      const deleteData = async () => {
+        await axios.delete(`/api/questions/${children.id}`);
+      };
+      deleteData();
+      toast.success("Question deleted", { autoClose: 500 });
+    } catch (error) {
+      console.log(error);
+      toast.error("Failed to delete question", { autoClose: 500 });
+    }
   };
   return (
     <div
@@ -42,11 +57,21 @@ const EditQuestion = ({
       <button
         className="p-1 pl-2 pr-2 bg-base-300 rounded-md absolute top-0 right-0 m-2"
         onClick={() => {
-          setQuestions((question) => {
-            const newQuestions = [...question];
-            newQuestions[index] = { ...newQuestions[index], edit: false };
-            return newQuestions;
-          });
+          try {
+            const putData = async (question) => {
+              await axios.put("/api/questions", question);
+            };
+            setQuestions((question) => {
+              const newQuestions = [...question];
+              newQuestions[index] = { ...newQuestions[index], edit: false };
+              putData(newQuestions[index]);
+              return newQuestions;
+            });
+            toast.success("Question saved", { autoClose: 500 });
+          } catch (error) {
+            console.log(error);
+            toast.error("Failed to save question", { autoClose: 500 });
+          }
         }}
       >
         <HiDotsHorizontal />
@@ -90,17 +115,20 @@ const EditQuestion = ({
           <option value="checkbox">Checkbox</option>
         </select>
       </div>
-      <div
-        className="w-full flex justify-end"
-        onClick={() => {
-          setQuestions((question) => {
-            const newQuestions = [...question];
-            newQuestions.splice(index, 1);
-            return newQuestions;
-          });
-        }}
-      >
-        <button className="btn btn-warning">Delete</button>
+      <div className="w-full flex justify-end">
+        <button
+          className="btn btn-warning"
+          onClick={() => {
+            deleteHandler();
+            setQuestions((question) => {
+              const newQuestions = [...question];
+              newQuestions.splice(index, 1);
+              return newQuestions;
+            });
+          }}
+        >
+          Delete
+        </button>
       </div>
     </div>
   );

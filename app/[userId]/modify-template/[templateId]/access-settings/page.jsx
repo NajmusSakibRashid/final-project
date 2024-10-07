@@ -190,7 +190,8 @@ const Page = ({ params }) => {
               </div>
 
               <div className="modal-action">
-                <form method="dialog">
+                <form method="dialog" className="flex gap-4">
+                  <button className="btn">Cancel</button>
                   <button className="btn" onClick={saveHandler}>
                     Save
                   </button>
