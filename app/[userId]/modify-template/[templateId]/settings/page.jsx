@@ -24,10 +24,11 @@ const Tag = ({ children, setData, index }) => {
 };
 
 const Page = ({ params }) => {
+  const ref = useRef();
   const [data, setData] = useState({
     title: "",
     description: "",
-    topic: "Education",
+    topic: "",
     image: "",
     tags: [],
   });
@@ -35,7 +36,6 @@ const Page = ({ params }) => {
     const fetchData = async () => {
       try {
         const response = await axios.get(`/api/template/${params.templateId}`);
-        response.data.tags = response.data.tags.split(",");
         setData(response.data);
       } catch (err) {
         console.log(err);
@@ -56,9 +56,21 @@ const Page = ({ params }) => {
     setData((data) => ({ ...data, tags: [...data.tags, tmpTag] }));
     setTmpTag("");
   };
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`/api/tags/${tmpTag}`);
+        setTags(response.data.tags);
+      } catch (err) {
+        console.log(err);
+        setTags([]);
+      }
+    };
+    fetchData();
+  }, [tmpTag]);
   const handleSubmit = async () => {
-    console.log(data);
-    console.log(data.tags.join(","));
+    // console.log(data);
+    // console.log(data.tags.join(","));
     try {
       const response = await axios.put("/api/template", { ...data, ...params });
       toast.success(response.data.message, { autoClose: 500 });
@@ -108,12 +120,13 @@ const Page = ({ params }) => {
         <label htmlFor="topic">Topic</label>
         <select
           onChange={handleChange}
-          value={data.topic}
+          // value={data.topic}
           className="w-full max-w-64 p-2 border-b border-gray-300 rounded-md focus:bg-base-300 focus:outline-none"
           id="topic"
           name="topic"
-          // defaultValue={topic[0]}
+          value={data.topic}
         >
+          <option value="">None</option>
           {topic.map((topic, index) => (
             <option key={index} value={topic}>
               {topic}
@@ -148,8 +161,10 @@ const Page = ({ params }) => {
             value={tmpTag}
             type="text"
             name="tags"
+            ref={ref}
             className="p-2 focus:bg-base-300 focus:outline-none rounded-md border-b border-gray-300 w-full max-w-64"
             placeholder="tags"
+            autoComplete="off"
           />
           {tags.length > 0 && (
             <div className="absolute left-0 top-full mt-2 bg-base-300 p-4">
@@ -157,7 +172,11 @@ const Page = ({ params }) => {
                 <button
                   key={index}
                   className="w-full text-left"
-                  onClick={(e) => (ref.current.value = e.target.innerText)}
+                  onClick={(e) => {
+                    ref.current.value = e.target.innerText;
+                    setTmpTag(e.target.innerText);
+                    ref.current.focus();
+                  }}
                 >
                   {tag}
                 </button>

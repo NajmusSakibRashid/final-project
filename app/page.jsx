@@ -11,7 +11,7 @@ const Page = () => {
     password: "",
   });
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    // e.preventDefault();
     if (!state.email || !state.password) {
       toast.error("Please fill all fields", { autoClose: 500 });
       return;
@@ -36,41 +36,41 @@ const Page = () => {
     <div className="fixed inset-0 flex justify-center items-center bg-gray-300 min-w-96">
       <div className="card bg-base-300 p-4">
         <h1 className="text-2xl">Sign In</h1>
-        <form onSubmit={handleSubmit}>
-          <div className="form-control">
-            <label className="label">
-              <span className="label-text">Email</span>
-            </label>
-            <input
-              value={state.email}
-              name="email"
-              onChange={handleChange}
-              type="text"
-              placeholder="Email"
-              className="input name='' onChange={handleChange}"
-            />
-          </div>
-          <div className="form-control">
-            <label className="label">
-              <span className="label-text">Password</span>
-            </label>
-            <input
-              value={state.password}
-              name="password"
-              onChange={handleChange}
-              type="password"
-              placeholder="Password"
-              className="input name='' onChange={handleChange}"
-            />
-          </div>
-          <button className="btn btn-primary w-full mt-4">Sign In</button>
-          <div className="mt-4">
-            {"Don't have an account?"}{" "}
-            <Link href="/signup" className="text-blue-500 underline">
-              Signup
-            </Link>
-          </div>
-        </form>
+        <div className="form-control">
+          <label className="label">
+            <span className="label-text">Email</span>
+          </label>
+          <input
+            value={state.email}
+            name="email"
+            onChange={handleChange}
+            type="text"
+            placeholder="Email"
+            className="input name='' onChange={handleChange}"
+          />
+        </div>
+        <div className="form-control">
+          <label className="label">
+            <span className="label-text">Password</span>
+          </label>
+          <input
+            value={state.password}
+            name="password"
+            onChange={handleChange}
+            type="password"
+            placeholder="Password"
+            className="input name='' onChange={handleChange}"
+          />
+        </div>
+        <button className="btn btn-primary w-full mt-4" onClick={handleSubmit}>
+          Sign In
+        </button>
+        <div className="mt-4">
+          {"Don't have an account?"}{" "}
+          <Link href="/signup" className="text-blue-500 underline">
+            Signup
+          </Link>
+        </div>
       </div>
     </div>
   );

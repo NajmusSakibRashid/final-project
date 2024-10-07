@@ -2,10 +2,20 @@ import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { storage } from "../firebase-config";
 import exp from "constants";
 
+const random_string = (length) => {
+  const chars =
+    "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  let result = "";
+  for (let i = 0; i < length; i++) {
+    result += chars[Math.floor(Math.random() * chars.length)];
+  }
+  return result;
+};
+
 const upload = async (file) => {
   if (!file) return;
   try {
-    const storageRef = ref(storage, `images/${file.name}`);
+    const storageRef = ref(storage, `images/${random_string(10)}`);
     const uploadTask = uploadBytesResumable(storageRef, file);
     return new Promise((resolve, reject) => {
       uploadTask.on(

@@ -7,7 +7,7 @@ export async function POST(request) {
   try {
     const data = await request.json();
     const { email, password } = data;
-    console.log(email, password);
+    // console.log(email, password);
     if (!email || !password) {
       return NextResponse.json(
         { message: "Please fill all fields" },
