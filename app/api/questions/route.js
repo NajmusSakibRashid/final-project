@@ -37,7 +37,7 @@ export async function POST(request) {
         data.title
       }','${data.description}','${data.type}','${data.edit}',${
         data.template_id
-      },${max ? max + 1 : 0}) returning id`
+      },${max ? max + 1 : 1}) returning id`
     );
     return NextResponse.json({ question_id });
   } catch (error) {

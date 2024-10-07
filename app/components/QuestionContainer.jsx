@@ -31,13 +31,33 @@ const QuestionContainer = ({ questions, setQuestions, mode, templateId }) => {
       }
     };
 
+    const putData = async (question, index) => {
+      try {
+        await axios.put(`/api/questions/${question.id}`, { index });
+      } catch (err) {
+        console.log(err);
+        toast.error("Failed to update question", { autoClose: 500 });
+      }
+    };
+
     if (index != -1) {
       setQuestions((question) => {
         const newQuestions = [...question];
         const temp = newQuestions[ind];
         newQuestions.splice(ind, 1);
         newQuestions.splice(index, 0, temp);
-        newQuestions.forEach(updateQuestion);
+        let new_index = 0;
+        if (index == 0 && index == newQuestions.length - 1) new_index = 0;
+        else if (index == 0) new_index = newQuestions[index + 1].index - 1;
+        else if (index == newQuestions.length - 1)
+          new_index = newQuestions[index - 1].index + 1;
+        else
+          new_index =
+            (newQuestions[index - 1].index + newQuestions[index + 1].index) / 2;
+
+        newQuestions[index].index = new_index;
+        putData(newQuestions[index], new_index);
+
         return newQuestions;
       });
     }
