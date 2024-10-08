@@ -27,7 +27,11 @@ export async function POST(request) {
       );
     }
     const key = process.env.HMAC_SECRET;
-    const token = jwt.sign({ email, id: rows[0].id }, key, { expiresIn: "1h" });
+    const token = jwt.sign(
+      { email, id: rows[0].id, username: rows[0].username },
+      key,
+      { expiresIn: "1h" }
+    );
     let response = NextResponse.json({
       message: "Signed in successfully",
       userId: rows[0].id,
