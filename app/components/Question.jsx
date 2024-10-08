@@ -1,3 +1,5 @@
+"use client";
+
 import { HiDotsHorizontal } from "react-icons/hi";
 import { MdOutlineDragIndicator } from "react-icons/md";
 import { useState, useRef, useEffect } from "react";
@@ -26,6 +28,7 @@ const Question = ({
       onDrag={onDrag}
     >
       <button
+        disabled={mode !== "edit"}
         className="bg-base-300 rotate-90 rounded-md rounded-l-none p-2 absolute top-0 right-1/2 translate-x-1/2 active:bg-base-200"
         onMouseDown={() => setDrag(true)}
         onMouseUp={() => setDrag(false)}
@@ -48,18 +51,13 @@ const Question = ({
       <h1 className="text-xl font-bold mb-2">{title}</h1>
       <div className="flex gap-4">
         {type === "checkbox" && (
-          <input
-            disabled={mode === "edit"}
-            type="checkbox"
-            id={id}
-            className="mb-2"
-          />
+          <input disabled={true} type="checkbox" id={id} className="mb-2" />
         )}
         <div className="mb-2">{description}</div>
       </div>
       {((type === "text" || type === "number") && (
         <input
-          disabled={mode === "edit"}
+          disabled={true}
           className="border-b-2 border-gray-300 w-full focus:bg-base-200 focus:outline-none"
           id={id}
           type={type}
@@ -68,7 +66,7 @@ const Question = ({
       )) ||
         (type === "textarea" && (
           <textarea
-            disabled={mode === "edit"}
+            disabled={true}
             className="border-b-2 border-gray-300 w-full focus:bg-base-200 focus:outline-none"
             id={id}
             placeholder={`Enter a multiline text here`}

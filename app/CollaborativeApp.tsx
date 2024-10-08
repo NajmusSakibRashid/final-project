@@ -7,7 +7,7 @@ export function CollaborativeApp() {
   const { threads } = useThreads();
 
   return (
-    <div>
+    <div className="w-full max-w-lg">
       {threads.map((thread) => (
         <Thread key={thread.id} thread={thread} />
       ))}

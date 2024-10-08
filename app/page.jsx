@@ -71,6 +71,11 @@ const Page = () => {
             Signup
           </Link>
         </div>
+        <Link href="/lobby">
+          <button className="btn btn-primary w-full mt-4">
+            Visit As Guest
+          </button>
+        </Link>
       </div>
     </div>
   );
