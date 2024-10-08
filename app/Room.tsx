@@ -30,7 +30,7 @@ export function Room({
               name: user.username,
               avatar: `https://liveblocks.io/avatars/avatar-${user.id}.png`,
             });
-          } catch {
+          } catch (error) {
             userData.push({
               name: "Unknown",
               avatar: `https://liveblocks.io/avatars/avatar-0.png`,
