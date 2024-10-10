@@ -17,7 +17,7 @@ const Page = async ({ params: { userId, templateId } }) => {
       <td key={-2}>{answer.username}</td>,
       <td key={-1}>{answer.date.toString()}</td>,
       ...rows.map((question, q_index) => (
-        <td key={q_index}>{answer[question.type][q_index].toString()}</td>
+        <td key={q_index}>{answer[question.type][q_index]?.toString()}</td>
       )),
     ]),
   ];
