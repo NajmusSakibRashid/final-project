@@ -33,7 +33,7 @@ export async function POST(request) {
       [userId, parseInt(templateId)]
     );
     await sql.query(`
-      insert into answers (form_id,text,question_id,index) select ${id},'',questions.id,questions.index 
+      insert into answers (form_id,text,question_id) select ${id},'',questions.id
       from templates,questions
       where templates.id=${parseInt(
         templateId
@@ -41,7 +41,7 @@ export async function POST(request) {
       and questions.type='text'
     `);
     await sql.query(`
-      insert into answers (form_id,number,question_id,index) select ${id},0,questions.id,questions.index 
+      insert into answers (form_id,number,question_id) select ${id},0,questions.id
       from templates,questions
       where templates.id=${parseInt(
         templateId
@@ -49,7 +49,7 @@ export async function POST(request) {
       and questions.type='number'
     `);
     await sql.query(`
-      insert into answers (form_id,textarea,question_id,index) select ${id},'',questions.id,questions.index 
+      insert into answers (form_id,textarea,question_id) select ${id},'',questions.id
       from templates,questions
       where templates.id=${parseInt(
         templateId
@@ -57,7 +57,7 @@ export async function POST(request) {
       and questions.type='textarea'
     `);
     await sql.query(`
-      insert into answers (form_id,checkbox,question_id,index) select ${id},true,questions.id,questions.index 
+      insert into answers (form_id,checkbox,question_id) select ${id},false,questions.id
       from templates,questions
       where templates.id=${parseInt(
         templateId

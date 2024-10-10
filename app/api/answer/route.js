@@ -20,26 +20,22 @@ export async function PUT(request) {
     switch (type) {
       case "text":
         await sql.query(
-          "update answers set text=$1 where form_id=$2 and question_id=$3",
-          [answers, parseInt(formId), parseInt(questionId)]
+          `update answers set text='${answers}' where form_id=${formId} and question_id=${questionId}`
         );
         break;
       case "number":
         await sql.query(
-          "update answers set number=$1 where form_id=$2 and question_id=$3",
-          [answers, parseInt(formId), parseInt(questionId)]
+          `update answers set number=${answers} where form_id=${formId} and question_id=${questionId}`
         );
         break;
       case "textarea":
         await sql.query(
-          "update answers set textarea=$1 where form_id=$2 and question_id=$3",
-          [answers, parseInt(formId), parseInt(questionId)]
+          `update answers set textarea='${answers}' where form_id=${formId} and question_id=${questionId}`
         );
         break;
       case "checkbox":
         await sql.query(
-          "update answers set checkbox=$1 where form_id=$2 and question_id=$3",
-          [answers, parseInt(formId), parseInt(questionId)]
+          `update answers set checkbox=${answers} where form_id=${formId} and question_id=${questionId}`
         );
         break;
     }

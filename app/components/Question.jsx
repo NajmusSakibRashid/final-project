@@ -16,7 +16,7 @@ const Question = ({
   showToast,
 }) => {
   const [drag, setDrag] = useState(false);
-  const { id, description, type, title, form_id } = children;
+  const { id, description, type, title, form_id, question_id } = children;
   // useEffect(() => {
   //   console.log(drag, mode === "edit" && drag);
   // }, [drag]);
@@ -37,7 +37,7 @@ const Question = ({
   const saveHandler = async () => {
     try {
       const res = await axios.put("/api/answer", {
-        questionId: id,
+        questionId: question_id,
         formId: form_id,
         type: type,
         answers:
