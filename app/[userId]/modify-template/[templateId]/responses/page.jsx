@@ -2,11 +2,11 @@ import { sql } from "@vercel/postgres";
 
 const Page = async ({ params: { userId, templateId } }) => {
   const { rows } =
-    await sql`select questions.* from questions where questions.template_id = ${templateId}`;
-  // console.log(rows);
+    await sql`select questions.* from questions where questions.template_id = ${templateId} order by questions.index`;
+  console.log(rows);
   const { rows: answers } =
-    await sql`select users1.username,forms.date, array_agg(answers.text order by questions.id) as text, array_agg(answers.number order by questions.id) as number,array_agg(answers.textarea order by questions.id) as textarea, array_agg(answers.checkbox order by questions.id) as checkbox from answers,forms,questions,users1 where forms.owner=users1.id and forms.template_id=${templateId} and answers.form_id=forms.id and answers.question_id=questions.id group by forms.id,users1.username,forms.date`;
-  // console.log(answers);
+    await sql`select users1.username,forms.date, array_agg(answers.text order by questions.index) as text, array_agg(answers.number order by questions.index) as number,array_agg(answers.textarea order by questions.index) as textarea, array_agg(answers.checkbox order by questions.index) as checkbox from answers,forms,questions,users1 where forms.owner=users1.id and forms.template_id=${templateId} and answers.form_id=forms.id and answers.question_id=questions.id group by forms.id,users1.username,forms.date`;
+  console.log(answers);
   const table = [
     [
       <th key={-2}>Owner</th>,
