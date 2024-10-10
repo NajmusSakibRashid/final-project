@@ -19,23 +19,41 @@ export async function PUT(request) {
     }
     switch (type) {
       case "text":
-        await sql.query(
-          `update answers set text='${answers}' where form_id=${formId} and question_id=${questionId}`
+        const { rows: text_rows } = await sql.query(
+          `update answers set text='${answers}' where form_id=${formId} and question_id=${questionId} returning id`
         );
+        // console.log(text_rows);
+        if (text_rows.length === 0) {
+          await sql.query(
+            `insert into answers (form_id, question_id, text) values (${formId}, ${questionId}, '${answers}')`
+          );
+        }
         break;
       case "number":
+        const { rows: number_rows } = await sql.query(
+          `update answers set number=${answers} where form_id=${formId} and question_id=${questionId} returning id`
+        );
+        // console.log(number_rows);
         await sql.query(
-          `update answers set number=${answers} where form_id=${formId} and question_id=${questionId}`
+          `insert into answers (form_id, question_id, number) values (${formId}, ${questionId}, ${answers})`
         );
         break;
       case "textarea":
+        const { rows: textarea_rows } = await sql.query(
+          `update answers set textarea='${answers}' where form_id=${formId} and question_id=${questionId} returning id`
+        );
+        // console.log(textarea_rows);
         await sql.query(
-          `update answers set textarea='${answers}' where form_id=${formId} and question_id=${questionId}`
+          `insert into answers (form_id, question_id, textarea) values (${formId}, ${questionId}, ${answers})`
         );
         break;
       case "checkbox":
+        const { rows: checkbox_rows } = await sql.query(
+          `update answers set checkbox=${answers} where form_id=${formId} and question_id=${questionId} returning id`
+        );
+        // console.log(checkbox_rows);
         await sql.query(
-          `update answers set checkbox=${answers} where form_id=${formId} and question_id=${questionId}`
+          `insert into answers (form_id, question_id, checkbox) values (${formId}, ${questionId}, ${answers})`
         );
         break;
     }

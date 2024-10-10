@@ -37,7 +37,7 @@ const Question = ({
   const saveHandler = async () => {
     try {
       const res = await axios.put("/api/answer", {
-        questionId: question_id,
+        questionId: id,
         formId: form_id,
         type: type,
         answers:

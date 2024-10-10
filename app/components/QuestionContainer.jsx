@@ -17,7 +17,9 @@ const QuestionContainer = ({ questions, setQuestions, mode, templateId }) => {
   const dragHandle = (e, ind) => {
     // e.preventDefault();
     // console.log(getIndex(e.clientY));
-    const index = getIndex(e.clientY);
+    let index = getIndex(e.clientY);
+
+    if (index > ind) index--;
 
     const putData = async (question, index) => {
       try {
@@ -108,11 +110,11 @@ const QuestionContainer = ({ questions, setQuestions, mode, templateId }) => {
       <div
         key={questions.length}
         className="w-full max-w-lg flex flex-col items-center"
-        // ref={(el) => (ref.current[questions.length] = el)}
+        ref={(el) => (ref.current[questions.length] = el)}
       >
-        {/* {indicator[questions.length] && (
+        {indicator[questions.length] && (
           <div className="border-b-4 border-blue-500 w-full"></div>
-        )} */}
+        )}
         <AddQuestion
           setQuestions={setQuestions}
           templateId={templateId}

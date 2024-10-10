@@ -16,7 +16,7 @@ const Page = async ({ params: { formId, userId } }) => {
       rows: [{ template_id, owner }],
     } = await sql.query("select * from forms where id=$1", [formId]);
     const { rows } = await sql.query(
-      `select questions.*,${formId} as form_id, answers.* from questions , answers where questions.template_id=${template_id} and answers.question_id=questions.id and answers.form_id=${formId} order by questions.index`
+      `select questions.*,${formId} as form_id, answers.text,answers.textarea,answers.number,answers.checkbox from questions left join answers on questions.id=answers.question_id where questions.template_id=${template_id} and (answers.form_id=${formId} or answers.form_id is null) order by questions.index`
     );
     // console.log(rows);
     const {
