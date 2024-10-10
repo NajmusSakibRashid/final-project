@@ -3,6 +3,8 @@
 import { HiDotsHorizontal } from "react-icons/hi";
 import { MdOutlineDragIndicator } from "react-icons/md";
 import { useState, useRef, useEffect } from "react";
+import { toast } from "react-toastify";
+import axios from "axios";
 
 const Question = ({
   children,
@@ -11,12 +13,44 @@ const Question = ({
   mode,
   dragHandle,
   onDrag,
+  showToast,
 }) => {
   const [drag, setDrag] = useState(false);
-  const { id, description, type, title } = children;
+  const { id, description, type, title, form_id } = children;
   // useEffect(() => {
   //   console.log(drag, mode === "edit" && drag);
   // }, [drag]);
+  useEffect(() => {
+    // console.log(children);
+    if (mode === "form" && showToast) {
+      toast.info("You are in form mode. You can fill the form now.", {
+        autoClose: false,
+        position: "top-center",
+      });
+    }
+    if (mode === "form") {
+      document.getElementById(id).value =
+        children.text || children.number || children.textarea;
+      document.getElementById(id).checked = children.checkbox;
+    }
+  }, []);
+  const saveHandler = async () => {
+    try {
+      const res = await axios.put("/api/answer", {
+        questionId: id,
+        formId: form_id,
+        type: type,
+        answers:
+          type === "checkbox"
+            ? document.getElementById(id).checked
+            : document.getElementById(id).value,
+      });
+      toast.success("Answer saved successfully", { autoClose: 500 });
+    } catch (err) {
+      console.log(err);
+      toast.error("Failed to save answer", { autoClose: 500 });
+    }
+  };
   return (
     <div
       className="bg-white p-4 pt-8 rounded-md m-4 w-full max-w-lg border-t-4 border-blue-300 relative"
@@ -51,27 +85,50 @@ const Question = ({
       <h1 className="text-xl font-bold mb-2">{title}</h1>
       <div className="flex gap-4">
         {type === "checkbox" && (
-          <input disabled={true} type="checkbox" id={id} className="mb-2" />
+          <input
+            disabled={mode !== "form"}
+            type="checkbox"
+            id={id}
+            className="mb-2"
+            onChange={saveHandler}
+          />
         )}
         <div className="mb-2">{description}</div>
       </div>
       {((type === "text" || type === "number") && (
         <input
-          disabled={true}
+          disabled={mode !== "form"}
           className="border-b-2 border-gray-300 w-full focus:bg-base-200 focus:outline-none"
           id={id}
           type={type}
           placeholder={`Enter a ${type} here`}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              e.preventDefault();
+              saveHandler();
+            }
+          }}
         />
       )) ||
         (type === "textarea" && (
           <textarea
-            disabled={true}
+            disabled={mode !== "form"}
             className="border-b-2 border-gray-300 w-full focus:bg-base-200 focus:outline-none"
             id={id}
             placeholder={`Enter a multiline text here`}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                e.preventDefault();
+                saveHandler();
+              }
+            }}
           ></textarea>
         ))}
+      {mode == "form" && type != "checkbox" && (
+        <button className="btn btn-neutral mt-4" onClick={saveHandler}>
+          Save
+        </button>
+      )}
     </div>
   );
 };

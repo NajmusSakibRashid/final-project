@@ -8,9 +8,14 @@ const QuestionContainer = ({ questions, mode }) => {
       <div>
         <h1 className="text-2xl font-bold">Questions</h1>
       </div>
-      {questions.map((question, index) => (
+      {questions?.map((question, index) => (
         <div key={index} className="w-full max-w-lg flex flex-col items-center">
-          <Question key={index} index={index} mode={mode}>
+          <Question
+            key={index}
+            index={index}
+            mode={mode}
+            showToast={index === 0}
+          >
             {question}
           </Question>
         </div>

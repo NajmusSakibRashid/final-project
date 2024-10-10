@@ -3,6 +3,7 @@ import { MdOutlineDragIndicator } from "react-icons/md";
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import axios from "axios";
+import { FaLock } from "react-icons/fa";
 
 const EditQuestion = ({
   children,
@@ -102,7 +103,7 @@ const EditQuestion = ({
       </div>
       <div className="mb-2 flex justify-between w-full items-center">
         <label htmlFor="type">Type</label>
-        <select
+        {/* <select
           className="w-full max-w-64 p-2 border-b border-gray-300 rounded-md focus:bg-base-300 focus:outline-none"
           id="type"
           name="type"
@@ -113,7 +114,11 @@ const EditQuestion = ({
           <option value="number">Number</option>
           <option value="textarea">Textarea</option>
           <option value="checkbox">Checkbox</option>
-        </select>
+        </select> */}
+        <div className="bg-base-200 capitalize w-full max-w-64 p-2 border-b border-gray-300 rounded-md focus:bg-base-300 focus:outline-none flex justify-between items-center">
+          {type}
+          <FaLock />
+        </div>
       </div>
       <div className="w-full flex justify-end">
         <button

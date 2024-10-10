@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 const TemplateCard = ({ children }) => {
+  // console.log(children);
   return (
     <div className="card bg-base-100 w-full shadow-xl">
       <figure>
@@ -15,6 +16,9 @@ const TemplateCard = ({ children }) => {
         />
       </figure>
       <div className="card-body">
+        <h2 className="text-gray-500 w-full border-b border-b-gray-500">
+          {children.username}
+        </h2>
         <h2 className="card-title">{children.title}</h2>
         <p>{children.description.slice(0, 50)}...</p>
         <div className="card-actions justify-end">

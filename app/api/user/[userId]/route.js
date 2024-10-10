@@ -7,7 +7,7 @@ export async function GET(request, { params }) {
     // console.log(rows);
     return NextResponse.json(rows[0]);
   } catch (err) {
-    console.log(err);
+    // console.log(err);
     return NextResponse.json(
       { message: "Error getting user" },
       { status: 500 }

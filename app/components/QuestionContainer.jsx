@@ -19,18 +19,6 @@ const QuestionContainer = ({ questions, setQuestions, mode, templateId }) => {
     // console.log(getIndex(e.clientY));
     const index = getIndex(e.clientY);
 
-    const updateQuestion = (question, index) => {
-      try {
-        const putData = async (question, index) => {
-          await axios.put(`/api/questions/${question.id}`, { index });
-        };
-        putData(question, index);
-      } catch (error) {
-        console.log(error);
-        toast.error("Failed to update question", { autoClose: 500 });
-      }
-    };
-
     const putData = async (question, index) => {
       try {
         await axios.put(`/api/questions/${question.id}`, { index });
@@ -120,11 +108,11 @@ const QuestionContainer = ({ questions, setQuestions, mode, templateId }) => {
       <div
         key={questions.length}
         className="w-full max-w-lg flex flex-col items-center"
-        ref={(el) => (ref.current[questions.length] = el)}
+        // ref={(el) => (ref.current[questions.length] = el)}
       >
-        {indicator[questions.length] && (
+        {/* {indicator[questions.length] && (
           <div className="border-b-4 border-blue-500 w-full"></div>
-        )}
+        )} */}
         <AddQuestion
           setQuestions={setQuestions}
           templateId={templateId}
