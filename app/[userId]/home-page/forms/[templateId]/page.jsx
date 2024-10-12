@@ -2,38 +2,47 @@ import { sql } from "@vercel/postgres";
 import { FaEdit } from "react-icons/fa";
 import { FaTrash } from "react-icons/fa";
 import Link from "next/link";
+import { EmptyComponent } from "../../../../components/EmptyComponent";
 
 const Page = async ({ params: { userId, templateId } }) => {
   const { rows } =
     await sql`select questions.* from questions where questions.template_id = ${templateId} order by questions.index`;
   // console.log(rows);
   const { rows: answers } = await sql`
-    select 
+    select
         forms.id f_id,
         users1.username,
         forms.date,
-        array_agg(answers.text order by questions.index)  text,
-        array_agg(answers.textarea order by questions.index)  textarea,
-        array_agg(answers.checkbox order by questions.index)  checkbox,
-        array_agg(answers.number order by questions.index)  number 
+        array_agg(answers.text order by questions.index) text,
+        array_agg(answers.textarea order by questions.index) textarea,
+        array_agg(answers.checkbox order by questions.index) checkbox,
+        array_agg(answers.number order by questions.index) number
     from 
-        answers 
-    right join 
         questions 
-    on 
-        answers.question_id=questions.id 
     join 
         forms 
     on 
         questions.template_id=forms.template_id 
+    left join 
+        answers 
+    on 
+        answers.question_id=questions.id 
+    and 
+        answers.form_id=forms.id 
     join 
         users1
-    on 
+    on
         users1.id=forms.owner
-    where 
-        forms.template_id=${templateId} and (answers.form_id=forms.id or answers.form_id is null) and users1.id=${userId}
-    group by forms.id,users1.username,forms.date`;
-  console.log(answers);
+    where
+        forms.template_id=${templateId} and forms.owner=${userId}
+    group by
+        forms.id,forms.date,users1.username`;
+  // console.log(answers);
+
+  if (answers.length == 0) {
+    return <EmptyComponent>No answers found</EmptyComponent>;
+  }
+
   const table = [
     [
       <th key={-2}>Owner</th>,
@@ -43,7 +52,7 @@ const Page = async ({ params: { userId, templateId } }) => {
     ],
     ...answers.map((answer, a_index) => [
       <td key={-2}>{answer.username}</td>,
-      <td key={-1}>{answer.date.toString()}</td>,
+      <td key={-1}>{answer.date.toString().slice(4, 24)}</td>,
       ...rows.map((question, q_index) => (
         <td key={q_index}>{answer[question.type][q_index]?.toString()}</td>
       )),
@@ -56,6 +65,9 @@ const Page = async ({ params: { userId, templateId } }) => {
   ];
   return (
     <div>
+      <div className="flex justify-center p-8">
+        <h1 className="text-2xl font-bold">Forms you created</h1>
+      </div>
       <table className="table bg-gray-300">
         <thead>
           <tr>{table[0]}</tr>

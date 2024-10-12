@@ -3,7 +3,7 @@ import Link from "next/link";
 import { useState, useEffect, useRef } from "react";
 const TemplateNavbar = () => {
   return (
-    <div className="w-full bg-white flex justify-center pt-16 gap-8">
+    <div className="w-full bg-white flex justify-center gap-8">
       <Link className="text-blue-800" href="settings">
         General Settings
       </Link>

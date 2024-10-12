@@ -1,9 +1,9 @@
 import UserHomeNavbar from "../../components/UserHomeNavbar";
 
-const Layout = ({ children }) => {
+const Layout = ({ children, params: { userId } }) => {
   return (
     <div>
-      <UserHomeNavbar />
+      <UserHomeNavbar userId={userId} />
       {children}
     </div>
   );

@@ -7,6 +7,7 @@ import Link from "next/link";
 import { FaEdit } from "react-icons/fa";
 import { FaTrash } from "react-icons/fa";
 import { title } from "process";
+import { EmptyComponent } from "../../../components/EmptyComponent";
 
 const Page = async ({ params, searchParams }) => {
   try {
@@ -63,6 +64,10 @@ const Page = async ({ params, searchParams }) => {
 
   const { rows } = await sql.query(query);
 
+  if (rows.length == 0) {
+    return <EmptyComponent>No templates found</EmptyComponent>;
+  }
+
   // console.log(rows);
 
   const Tags = ({ children }) => {
@@ -78,66 +83,42 @@ const Page = async ({ params, searchParams }) => {
   };
 
   return (
-    <div className="flex flex-col items-center">
-      <UserHomeF userId={params.userId} />
+    <div className="overflow-x-auto">
+      <div className="flex justify-center">
+        <UserHomeF userId={params.userId} />
+      </div>
       {rows.length > 0 ? (
-        <table className="max-w-6xl mt-8 mb-8">
+        <table className="table mt-8">
           <thead>
             <tr>
-              <th className="bg-white p-2 border-2 border-gray-300 w-auto min-w-32">
-                ID
-              </th>
-              <th className="bg-white p-2 border-2 border-gray-300 w-auto min-w-32">
-                Title
-              </th>
-              <th className="bg-white p-2 border-2 border-gray-300 w-auto min-w-32">
-                Created At
-              </th>
-              <th className="bg-white p-2 border-2 border-gray-300 w-auto min-w-32">
-                Modified At
-              </th>
-              {/* <th className="bg-white p-2 border-2 border-gray-300 w-auto min-w-32">
+              <th>ID</th>
+              <th>Title</th>
+              <th>Created At</th>
+              <th>Modified At</th>
+              {/* <th>
                   Description
                 </th> */}
-              <th className="bg-white p-2 border-2 border-gray-300 w-auto min-w-32">
-                Topic
-              </th>
-              <th className="bg-white p-2 border-2 border-gray-300 w-auto min-w-32">
-                Tags
-              </th>
-              <th className="bg-white p-2 border-2 border-gray-300 w-auto min-w-32">
-                Edit
-              </th>
-              <th className="bg-white p-2 border-2 border-gray-300 w-auto min-w-32">
-                Delete
-              </th>
+              <th>Topic</th>
+              <th>Tags</th>
+              <th>Edit</th>
+              <th>Delete</th>
             </tr>
           </thead>
           <tbody>
             {rows.map((template, index) => (
-              <tr key={index}>
-                <td className="bg-white p-2 border-2 border-gray-300 w-auto min-w-32">
-                  {template.id}
-                </td>
-                <td className="bg-white p-2 border-2 border-gray-300 w-auto min-w-32">
-                  {template.title}
-                </td>
-                <td className="bg-white p-2 border-2 border-gray-300 w-auto min-w-32">
-                  {template.createdat.toString().slice(4, 24)}
-                </td>
-                <td className="bg-white p-2 border-2 border-gray-300 w-auto min-w-32">
-                  {template.modifiedat.toString().slice(4, 24)}
-                </td>
-                {/* <td className="bg-white p-2 border-2 border-gray-300 w-auto min-w-32">
+              <tr className="hover" key={index}>
+                <td>{template.id}</td>
+                <td>{template.title}</td>
+                <td>{template.createdat.toString().slice(4, 24)}</td>
+                <td>{template.modifiedat.toString().slice(4, 24)}</td>
+                {/* <td>
                     {template.description}
                   </td> */}
-                <td className="bg-white p-2 border-2 border-gray-300 w-auto min-w-32">
-                  {template.topic}
-                </td>
-                <td className="bg-white p-2 border-2 border-gray-300 w-auto min-w-32">
+                <td>{template.topic}</td>
+                <td>
                   <Tags>{template.tags}</Tags>
                 </td>
-                <td className="bg-white p-2 border-2 border-gray-300 w-auto min-w-32">
+                <td>
                   <Link
                     key={index}
                     href={`/${params.userId}/modify-template/${template.id}/settings`}
@@ -146,7 +127,7 @@ const Page = async ({ params, searchParams }) => {
                     <FaEdit />
                   </Link>
                 </td>
-                <td className="bg-white p-2 border-2 border-gray-300 w-auto min-w-32">
+                <td>
                   <Link
                     key={index}
                     href={`templates?delete=${template.id}`}
