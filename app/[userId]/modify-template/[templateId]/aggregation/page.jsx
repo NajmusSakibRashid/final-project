@@ -14,6 +14,9 @@ const Page = async ({ params: { templateId, userId } }) => {
           rows: [{ average }],
         } =
           await sql`select avg(answers.number) as average from answers where answers.question_id=${children.id}`;
+        if (!average) {
+          throw new Error("No value found");
+        }
         return (
           <div className="p-4 bg-base-300 w-full max-w-lg flex flex-col gap-2 rounded-lg border-t-4 border-blue-300">
             <h1 className="text-2xl font-bold">{children.title}</h1>
@@ -24,7 +27,7 @@ const Page = async ({ params: { templateId, userId } }) => {
           </div>
         );
       } catch (e) {
-        console.log(e);
+        // console.log(e);
         // toast.error("Error fetching data", { duration: 500 });
         return (
           <EmptyComponent>
@@ -71,6 +74,9 @@ const Page = async ({ params: { templateId, userId } }) => {
           rows: [{ mode }],
         } =
           await sql`select answers.text as mode from answers where answers.question_id=${children.id} group by answers.text order by count(answers.text) desc limit 1`;
+        if (mode === "" || mode === null) {
+          throw new Error("No value found");
+        }
         return (
           <div className="p-4 bg-base-300 w-full max-w-lg flex flex-col gap-2 rounded-lg border-t-4 border-blue-300">
             <h1 className="text-2xl font-bold">{children.title}</h1>
@@ -108,6 +114,9 @@ const Page = async ({ params: { templateId, userId } }) => {
               count desc 
           limit 5
           `;
+        if (rows.length === 0) {
+          throw new Error("No value found");
+        }
         return (
           <div className="p-4 bg-base-300 w-full max-w-lg flex flex-col gap-2 rounded-lg border-t-4 border-blue-300">
             <h1 className="text-2xl font-bold">{children.title}</h1>

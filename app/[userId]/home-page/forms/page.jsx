@@ -3,11 +3,17 @@ import Link from "next/link";
 import { FaEdit } from "react-icons/fa";
 import { FaTrash } from "react-icons/fa";
 import { EmptyComponent } from "../../../components/EmptyComponent";
+import Sorter from "../../../components/Sorter";
 
-const Page = async ({ params: { userId, templateId } }) => {
-  const { rows } = await sql`
-      select distinct templates.*,users1.username from templates,forms,users1 where forms.owner=${userId} and forms.template_id=templates.id and users1.id=forms.owner    
-    `;
+const Page = async ({
+  params: { userId, templateId },
+  searchParams: { sortBy, orderBy },
+}) => {
+  // console.log(sortBy, orderBy);
+  const { rows } = await sql.query(`
+      select distinct templates.*,users1.username from templates,forms,users1 where forms.owner=${userId} and forms.template_id=templates.id and users1.id=forms.owner 
+      order by ${sortBy || "templates.id"} ${orderBy || "asc"}  
+    `);
   // console.log(rows);
   // console.log(answers);
 
@@ -25,12 +31,20 @@ const Page = async ({ params: { userId, templateId } }) => {
       <EmptyComponent>{`You haven't submitted any forms yet.`}</EmptyComponent>
     );
   }
-
   return (
     <div>
       <div className="flex justify-center p-8">
         <h1 className="text-2xl font-bold">Templates you used</h1>
       </div>
+      <Sorter path={"forms"}>
+        {[
+          "templates.id",
+          "users1.username",
+          "templates.title",
+          "templates.description",
+          "templates.topic",
+        ]}
+      </Sorter>
       <table className="table bg-gray-300">
         <thead>
           <tr>{headers}</tr>
@@ -44,9 +58,9 @@ const Page = async ({ params: { userId, templateId } }) => {
               <td key={4}>{row.description}</td>
               <td key={5}>{row.topic}</td>
               <td key={6}>
-                <Link href={`forms/${row.id}`}>
+                <a href={`forms/${row.id}`}>
                   <FaEdit />
-                </Link>
+                </a>
               </td>
             </tr>
           ))}

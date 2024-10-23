@@ -26,7 +26,8 @@ export async function GET(request, { params: { templateId } }) {
     const cookieStore = cookies(request.headers);
     const token = cookieStore.get("token").value;
     const decoded = jwt.decode(token, process.env.HMAC_SECRET);
-    if (row.owner != decoded.id) {
+    // console.log(decoded);
+    if (row.owner != decoded.id && !decoded.admin) {
       return NextResponse.json({ message: "Invalid user" }, { status: 400 });
     }
     return NextResponse.json({ ...row, tags: g_tags });

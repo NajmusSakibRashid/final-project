@@ -1,7 +1,6 @@
 "use client";
 import axios from "axios";
 import { toast } from "react-toastify";
-import Link from "next/link";
 
 const UserHomeF = ({ userId }) => {
   const createTemplate = async () => {
@@ -30,54 +29,46 @@ const UserHomeF = ({ userId }) => {
           <li className="grid grid-cols-3 items-center gap-2 border-b-[1px] border-gray-300 justify-around">
             <div>Id</div>
             <div className="btn m-2">
-              <Link href="templates?sortBy=id&orderBy=asc">Ascending</Link>
+              <a href="templates?sortBy=id&orderBy=asc">Ascending</a>
             </div>
             <div className="btn m-2">
-              <Link href="templates?sortBy=id&orderBy=desc">Descending</Link>
+              <a href="templates?sortBy=id&orderBy=desc">Descending</a>
             </div>
           </li>
           <li className="grid grid-cols-3 items-center gap-2 border-b-[1px] border-gray-300 justify-around">
             <div>Title</div>
             <div className="btn m-2">
-              <Link href="templates?sortBy=title&orderBy=asc">Ascending</Link>
+              <a href="templates?sortBy=title&orderBy=asc">Ascending</a>
             </div>
             <div className="btn m-2">
-              <Link href="templates?sortBy=title&orderBy=desc">Descending</Link>
+              <a href="templates?sortBy=title&orderBy=desc">Descending</a>
             </div>
           </li>
           <li className="grid grid-cols-3 items-center gap-2 border-b-[1px] border-gray-300 justify-around">
             <div>Created At</div>
             <div className="btn m-2">
-              <Link href="templates?sortBy=createdat&orderBy=asc">
-                Ascending
-              </Link>
+              <a href="templates?sortBy=createdat&orderBy=asc">Ascending</a>
             </div>
             <div className="btn m-2">
-              <Link href="templates?sortBy=createdat&orderBy=desc">
-                Descending
-              </Link>
+              <a href="templates?sortBy=createdat&orderBy=desc">Descending</a>
             </div>
           </li>
           <li className="grid grid-cols-3 items-center gap-2 border-b-[1px] border-gray-300 justify-around">
             <div>Modified At</div>
             <div className="btn m-2">
-              <Link href="templates?sortBy=modifiedat&orderBy=asc">
-                Ascending
-              </Link>
+              <a href="templates?sortBy=modifiedat&orderBy=asc">Ascending</a>
             </div>
             <div className="btn m-2">
-              <Link href="templates?sortBy=modifiedat&orderBy=desc">
-                Descending
-              </Link>
+              <a href="templates?sortBy=modifiedat&orderBy=desc">Descending</a>
             </div>
           </li>
           <li className="grid grid-cols-3 items-center gap-2 border-b-[1px] border-gray-300 justify-around">
             <div>Topic</div>
             <div className="btn m-2">
-              <Link href="templates?sortBy=topic&orderBy=asc">Ascending</Link>
+              <a href="templates?sortBy=topic&orderBy=asc">Ascending</a>
             </div>
             <div className="btn m-2">
-              <Link href="templates?sortBy=topic&orderBy=desc">Descending</Link>
+              <a href="templates?sortBy=topic&orderBy=desc">Descending</a>
             </div>
           </li>
         </ul>

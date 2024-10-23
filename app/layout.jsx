@@ -34,9 +34,16 @@ export default function RootLayout({ children }) {
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gray-300 mb-[200px]`}
       >
         <div className="flex justify-between bg-base-100 p-8">
-          <Link href="/lobby">
-            <button className="btn">Lobby</button>
-          </Link>
+          <div className="flex gap-4">
+            <Link href="/lobby">
+              <button className="btn">Lobby</button>
+            </Link>
+            {decoded?.admin && (
+              <Link href={`/${decoded.id}/admin-panel`}>
+                <button className="btn">Admin Panel</button>
+              </Link>
+            )}
+          </div>
           {token ? (
             <div className="flex gap-4">
               <Link href={`/${decoded.id}/home-page/templates`}>

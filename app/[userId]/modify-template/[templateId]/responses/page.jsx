@@ -56,7 +56,7 @@ const Page = async ({ params: { userId, templateId } }) => {
     ]),
   ];
   return (
-    <div>
+    <div className="overflow-x-auto">
       <div className="flex justify-center p-8">
         <h1 className="text-2xl font-bold">Responses</h1>
       </div>

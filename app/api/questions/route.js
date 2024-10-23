@@ -8,10 +8,10 @@ export async function POST(request) {
     const data = await request.json();
     const cookieStore = cookies(request.headers.get("Cookie"));
     const token = cookieStore.get("token").value;
-    const { id } = jwt.decode(token, process.env.JWT_SECRET);
+    const { id, admin } = jwt.decode(token, process.env.JWT_SECRET);
     const { rows } =
       await sql`select owner from templates where id=${data.template_id}`;
-    if (id !== rows[0].owner)
+    if (id !== rows[0].owner && !admin)
       return NextResponse.json(
         {
           message: "You are not authorized to perform this action",
@@ -51,10 +51,10 @@ export async function PUT(request) {
     const data = await request.json();
     const cookieStore = cookies(request.headers.get("Cookie"));
     const token = cookieStore.get("token").value;
-    const { id } = jwt.decode(token, process.env.JWT_SECRET);
+    const { id, admin } = jwt.decode(token, process.env.JWT_SECRET);
     const { rows } =
       await sql`select owner from templates where id=${data.template_id}`;
-    if (id !== rows[0].owner)
+    if (id !== rows[0].owner && !admin)
       return NextResponse.json(
         {
           message: "You are not authorized to perform this action",

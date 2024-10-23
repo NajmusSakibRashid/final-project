@@ -38,7 +38,7 @@ export async function PUT(request) {
     try {
       const token = cookieStore.get("token").value;
       const decoded = jwt.decode(token, process.env.HMAC_SECRET);
-      if (userId != decoded.id) {
+      if (userId != decoded.id && !decoded.admin) {
         throw new Error("Invalid user");
       }
     } catch (err) {

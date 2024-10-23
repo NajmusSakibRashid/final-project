@@ -8,12 +8,12 @@ export async function GET(request, { params }) {
     const cookieStore = cookies(request.headers);
     const token = cookieStore.get("token").value;
     const decoded = jwt.decode(token, process.env.HMAC_SECRET);
-    const { id } = decoded;
+    const { id, admin } = decoded;
     const { rows } =
       await sql`SELECT is_public,owner FROM templates WHERE id=${params.templateId}`;
     const { rows: authenticUsers } =
       await sql`select users1.id,users1.username from template_permission,users1 where template_permission.template_id=${params.templateId} and users1.id=template_permission.user_id`;
-    if (id != rows[0].owner) {
+    if (id != rows[0].owner && !admin) {
       return NextResponse.json({ message: "Invalid user" }, { status: 400 });
     }
     return NextResponse.json({
@@ -35,11 +35,11 @@ export async function PUT(request, { params }) {
     const cookieStore = cookies(request.headers);
     const token = cookieStore.get("token").value;
     const decoded = jwt.decode(token, process.env.HMAC_SECRET);
-    const { id } = decoded;
+    const { id, admin } = decoded;
     const { privacy } = data;
     const { rows } =
       await sql`SELECT owner FROM templates WHERE id=${params.templateId}`;
-    if (id != rows[0].owner) {
+    if (id != rows[0].owner && !admin) {
       return NextResponse.json({ message: "Invalid user" }, { status: 400 });
     }
     if (typeof privacy == "boolean")
@@ -59,10 +59,10 @@ export async function DELETE(request, { params }) {
     const cookieStore = cookies(request.headers);
     const token = cookieStore.get("token").value;
     const decoded = jwt.decode(token, process.env.HMAC_SECRET);
-    const { id } = decoded;
+    const { id, admin } = decoded;
     const { rows } =
       await sql`SELECT owner FROM templates WHERE id=${params.templateId}`;
-    if (id != rows[0].owner) {
+    if (id != rows[0].owner && !admin) {
       return NextResponse.json({ message: "Invalid user" }, { status: 400 });
     }
     await sql`DELETE FROM template_permission WHERE template_id=${params.templateId}`;
@@ -82,10 +82,10 @@ export async function POST(request, { params }) {
     const cookieStore = cookies(request.headers);
     const token = cookieStore.get("token").value;
     const decoded = jwt.decode(token, process.env.HMAC_SECRET);
-    const { id } = decoded;
+    const { id, admin } = decoded;
     const { rows } =
       await sql`SELECT owner FROM templates WHERE id=${params.templateId}`;
-    if (id != rows[0].owner) {
+    if (id != rows[0].owner && !admin) {
       return NextResponse.json({ message: "Invalid user" }, { status: 400 });
     }
     const bulk_string = data.users

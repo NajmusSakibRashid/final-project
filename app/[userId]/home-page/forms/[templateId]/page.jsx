@@ -3,8 +3,13 @@ import { FaEdit } from "react-icons/fa";
 import { FaTrash } from "react-icons/fa";
 import Link from "next/link";
 import { EmptyComponent } from "../../../../components/EmptyComponent";
+import Sorter from "../../../../components/Sorter";
 
-const Page = async ({ params: { userId, templateId } }) => {
+const Page = async ({
+  params: { userId, templateId },
+  searchParams: { sortBy, orderBy },
+}) => {
+  console.log(sortBy, orderBy);
   const { rows } =
     await sql`select questions.* from questions where questions.template_id = ${templateId} order by questions.index`;
   // console.log(rows);
@@ -57,9 +62,9 @@ const Page = async ({ params: { userId, templateId } }) => {
         <td key={q_index}>{answer[question.type][q_index]?.toString()}</td>
       )),
       <td key={rows.length}>
-        <Link href={`../../modify-form/${answer.f_id}`}>
+        <a href={`../../modify-form/${answer.f_id}`}>
           <FaEdit />
-        </Link>
+        </a>
       </td>,
     ]),
   ];
@@ -68,6 +73,7 @@ const Page = async ({ params: { userId, templateId } }) => {
       <div className="flex justify-center p-8">
         <h1 className="text-2xl font-bold">Forms you created</h1>
       </div>
+      <Sorter path={`${templateId}`}>{rows.map((row) => row.title)}</Sorter>
       <table className="table bg-gray-300">
         <thead>
           <tr>{table[0]}</tr>

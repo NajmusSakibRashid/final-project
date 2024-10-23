@@ -17,9 +17,9 @@ const Page = async ({ params, searchParams }) => {
       throw new Error("Invalid token");
     }
     const decoded = jwt.decode(token, process.env.HMAC_SECRET);
-    if (params.userId != decoded.id) {
-      throw new Error("Invalid user");
-    }
+    // if (params.userId != decoded.id) {
+    //   throw new Error("Invalid user");
+    // }
   } catch (err) {
     console.log(err);
     redirect("/");
@@ -65,7 +65,14 @@ const Page = async ({ params, searchParams }) => {
   const { rows } = await sql.query(query);
 
   if (rows.length == 0) {
-    return <EmptyComponent>No templates found</EmptyComponent>;
+    return (
+      <>
+        <div className="flex justify-center">
+          <UserHomeF userId={params.userId} />
+        </div>
+        <EmptyComponent>No templates found</EmptyComponent>
+      </>
+    );
   }
 
   // console.log(rows);
@@ -84,6 +91,9 @@ const Page = async ({ params, searchParams }) => {
 
   return (
     <div className="overflow-x-auto">
+      <div className="flex justify-center p-8">
+        <h1 className="text-2xl font-bold">Templates you created</h1>
+      </div>
       <div className="flex justify-center">
         <UserHomeF userId={params.userId} />
       </div>
@@ -119,22 +129,22 @@ const Page = async ({ params, searchParams }) => {
                   <Tags>{template.tags}</Tags>
                 </td>
                 <td>
-                  <Link
+                  <a
                     key={index}
                     href={`/${params.userId}/modify-template/${template.id}/settings`}
                     className="text-blue-500 underline flex justify-center w-full"
                   >
                     <FaEdit />
-                  </Link>
+                  </a>
                 </td>
                 <td>
-                  <Link
+                  <a
                     key={index}
                     href={`templates?delete=${template.id}`}
                     className="text-red-500 underline flex justify-center w-full"
                   >
                     <FaTrash />
-                  </Link>
+                  </a>
                 </td>
               </tr>
             ))}

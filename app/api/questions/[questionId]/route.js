@@ -7,11 +7,11 @@ export async function GET(request, { params: { questionId: templateId } }) {
   try {
     const cookieStore = cookies(request.headers.get("Cookie"));
     const token = cookieStore.get("token").value;
-    const { id } = jwt.decode(token, process.env.JWT_SECRET);
+    const { id, admin } = jwt.decode(token, process.env.JWT_SECRET);
     const {
       rows: [{ owner }],
     } = await sql`select owner from templates where id=${templateId}`;
-    if (id !== owner) {
+    if (id !== owner && !admin) {
       return NextResponse.json(
         { message: "You are not authorized to perform this action" },
         { status: 401 }
@@ -30,12 +30,12 @@ export async function DELETE(request, { params }) {
   try {
     const cookieStore = cookies(request.headers.get("Cookie"));
     const token = cookieStore.get("token").value;
-    const { id } = jwt.decode(token, process.env.JWT_SECRET);
+    const { id, admin } = jwt.decode(token, process.env.JWT_SECRET);
     const {
       rows: [{ owner }],
     } =
       await sql`select templates.owner as owner from templates,questions where templates.id=questions.template_id and questions.id=${params.questionId}`;
-    if (id !== owner) {
+    if (id !== owner && !admin) {
       return NextResponse.json(
         { message: "You are not authorized to perform this action" },
         { status: 401 }
@@ -54,10 +54,10 @@ export async function PUT(request, { params }) {
     const data = await request.json();
     const cookieStore = cookies(request.headers.get("Cookie"));
     const token = cookieStore.get("token").value;
-    const { id } = jwt.decode(token, process.env.JWT_SECRET);
+    const { id, admin } = jwt.decode(token, process.env.JWT_SECRET);
     const { rows } =
       await sql`select templates.owner as owner from templates,questions where templates.id=questions.template_id and questions.id=${params.questionId}`;
-    if (id !== rows[0].owner)
+    if (id !== rows[0].owner && !admin)
       return NextResponse.json(
         {
           message: "You are not authorized to perform this action",

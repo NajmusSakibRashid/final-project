@@ -47,7 +47,7 @@ const Page = async ({ params: { formId, userId } }) => {
     const { rows: tags } = await sql.query(
       `select * from tags,templates_tags,templates where templates_tags.template_id=templates.id and templates_tags.tag_id=tags.id and templates.id=${template_id}`
     );
-    if (decoded.id != userId || decoded.id != owner) {
+    if ((decoded.id != userId && !decoded.admin) || userId != owner) {
       throw new Error("Invalid user");
     }
 

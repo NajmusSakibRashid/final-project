@@ -19,7 +19,7 @@ export async function POST(request) {
       .update(password)
       .digest("hex");
     const { rows } =
-      await sql`SELECT * FROM users1 WHERE email=${email} AND password=${hash}`;
+      await sql`SELECT * FROM users1 WHERE email=${email} AND password=${hash} and block is null`;
     if (rows.length === 0) {
       return NextResponse.json(
         { message: "Invalid credentials" },
@@ -28,16 +28,19 @@ export async function POST(request) {
     }
     const key = process.env.HMAC_SECRET;
     const token = jwt.sign(
-      { email, id: rows[0].id, username: rows[0].username },
-      key,
-      { expiresIn: "1h" }
+      {
+        email,
+        id: rows[0].id,
+        username: rows[0].username,
+        admin: rows[0].admin,
+      },
+      key
     );
     let response = NextResponse.json({
       message: "Signed in successfully",
       userId: rows[0].id,
     });
     response.cookies.set("token", token, {
-      maxAge: 3600,
       httpOnly: true,
       path: "/",
     });

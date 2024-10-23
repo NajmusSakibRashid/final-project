@@ -4,21 +4,21 @@ import { useState, useEffect, useRef } from "react";
 const TemplateNavbar = () => {
   return (
     <div className="w-full bg-white flex justify-center gap-8">
-      <Link className="text-blue-800" href="settings">
+      <a className="text-blue-800" href="settings">
         General Settings
-      </Link>
-      <Link className="text-blue-800" href="access-settings">
+      </a>
+      <a className="text-blue-800" href="access-settings">
         Access Settings
-      </Link>
-      <Link className="text-blue-800" href="questions">
+      </a>
+      <a className="text-blue-800" href="questions">
         Questions
-      </Link>
-      <Link className="text-blue-800" href="responses">
+      </a>
+      <a className="text-blue-800" href="responses">
         Responses
-      </Link>
-      <Link className="text-blue-800" href="aggregation">
+      </a>
+      <a className="text-blue-800" href="aggregation">
         Aggregation
-      </Link>
+      </a>
     </div>
   );
 };
