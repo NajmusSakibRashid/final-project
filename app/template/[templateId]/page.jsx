@@ -15,7 +15,8 @@ const Page = async ({ params: { templateId } }) => {
   );
   // console.log(template);
   const { rows: tags } = await sql.query(
-    "select tags.tag tag from tags,templates_tags,templates where templates_tags.template_id=templates.id and templates_tags.tag_id=tags.id and templates.id=10"
+    "select tags.tag tag from tags,templates_tags,templates where templates_tags.template_id=templates.id and templates_tags.tag_id=tags.id and templates.id=$1",
+    [templateId]
   );
   const { rows: questions } = await sql.query(
     "select * from questions where template_id = $1 order by index",

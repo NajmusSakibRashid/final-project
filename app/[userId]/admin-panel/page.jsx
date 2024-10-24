@@ -1,9 +1,11 @@
 import { sql } from "@vercel/postgres";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 
 const Page = async ({ params, searchParams }) => {
   // console.log(params, searchParams);
   const { makeAdmin, removeAdmin, block, unblock, delete: del } = searchParams;
+  const { userId } = params;
 
   try {
     if (makeAdmin) {
@@ -11,18 +13,28 @@ const Page = async ({ params, searchParams }) => {
     }
     if (removeAdmin) {
       await sql`update users1 set admin = null where id = ${removeAdmin}`;
+      if (removeAdmin === userId) {
+        throw new Error("removeAdmin === userId");
+      }
     }
     if (block) {
       await sql`update users1 set block = now() where id = ${block}`;
+      if (block === userId) {
+        throw new Error("block === userId");
+      }
     }
     if (unblock) {
       await sql`update users1 set block = null where id = ${unblock}`;
     }
     if (del) {
       await sql`delete from users1 where id = ${del}`;
+      if (del === userId) {
+        throw new Error("del === userId");
+      }
     }
   } catch (err) {
     console.log(err);
+    return redirect("/");
   }
 
   const { rows } =
