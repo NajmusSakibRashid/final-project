@@ -34,7 +34,7 @@ export default function RootLayout({ children }) {
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gray-300 mb-[200px]`}
       >
-        <div className="flex justify-between bg-base-100 p-8">
+        <div className="flex justify-between bg-base-100 p-8 flex-wrap gap-2">
           <div className="flex gap-4">
             <Link href="/lobby">
               <button className="btn">Lobby</button>
