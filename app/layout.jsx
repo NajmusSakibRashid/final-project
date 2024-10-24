@@ -7,6 +7,7 @@ import HomeNavbar from "./components/UserHomeNavbar";
 import { cookies } from "next/headers";
 import Link from "next/link";
 import jwt from "jsonwebtoken";
+import Search from "./components/Search";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -44,6 +45,9 @@ export default function RootLayout({ children }) {
               </Link>
             )}
           </div>
+
+          <Search />
+
           {token ? (
             <div className="flex gap-4">
               <Link href={`/${decoded.id}/home-page/templates`}>

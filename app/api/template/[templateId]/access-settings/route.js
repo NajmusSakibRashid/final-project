@@ -93,6 +93,7 @@ export async function POST(request, { params }) {
       .join(",");
     const query = `insert into template_permission (template_id,user_id) values ${bulk_string} on conflict (template_id,user_id) do nothing`;
     await sql.query(query);
+    await sql`update templates set modifiedat=now() where id=${params.templateId}`;
     return NextResponse.json({ message: "User added" });
   } catch (err) {
     console.log(err);
