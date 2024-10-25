@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 
 const Tag = ({ children, setData, index }) => {
   return (
-    <div className="bg-base-100 p-2 rounded-md flex items-center gap-2">
+    <div className="bg-base-200 p-2 rounded-md flex items-center gap-2">
       {children}
       <button
         onClick={() => {
@@ -94,7 +94,7 @@ const Page = ({ params }) => {
       <div>
         <h1 className="text-2xl font-bold mt-4">Settings</h1>
       </div>
-      <div className="flex max-w-lg w-full justify-between bg-white items-center p-4 m-4 rounded-md border-t-4 border-blue-300">
+      <div className="flex max-w-lg w-full justify-between bg-base-200 items-center p-4 m-4 rounded-md border-t-4 border-blue-300">
         <label htmlFor="title">Title</label>
         <input
           onChange={handleChange}
@@ -105,7 +105,7 @@ const Page = ({ params }) => {
           placeholder="Title"
         />
       </div>
-      <div className="flex max-w-lg w-full justify-between bg-white items-center p-4 m-4 rounded-md border-t-4 border-blue-300">
+      <div className="flex max-w-lg w-full justify-between bg-base-200 items-center p-4 m-4 rounded-md border-t-4 border-blue-300">
         <label htmlFor="description">Description</label>
         <textarea
           onChange={handleChange}
@@ -116,7 +116,7 @@ const Page = ({ params }) => {
           placeholder="description"
         />
       </div>
-      <div className="flex max-w-lg w-full justify-between bg-white items-center p-4 m-4 rounded-md border-t-4 border-blue-300">
+      <div className="flex max-w-lg w-full justify-between bg-base-200 items-center p-4 m-4 rounded-md border-t-4 border-blue-300">
         <label htmlFor="topic">Topic</label>
         <select
           onChange={handleChange}
@@ -134,7 +134,7 @@ const Page = ({ params }) => {
           ))}
         </select>
       </div>
-      <div className="flex max-w-lg w-full justify-between bg-white items-center p-4 m-4 rounded-md border-t-4 border-blue-300">
+      <div className="flex max-w-lg w-full justify-between bg-base-200 items-center p-4 m-4 rounded-md border-t-4 border-blue-300">
         <label htmlFor="title">Image</label>
         <input
           onChange={handleFileChange}
@@ -151,7 +151,7 @@ const Page = ({ params }) => {
           </Tag>
         ))}
       </div>
-      <div className="flex max-w-lg w-full justify-between bg-white items-center p-4 m-4 rounded-md border-t-4 border-blue-300">
+      <div className="flex max-w-lg w-full justify-between bg-base-200 items-center p-4 m-4 rounded-md border-t-4 border-blue-300">
         <label htmlFor="tags">Tags</label>
         <div className="flex gap-2 w-full max-w-64 relative">
           <input

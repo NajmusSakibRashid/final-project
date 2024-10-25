@@ -1,31 +1,45 @@
 "use client";
 
-const ThemeContorller = () => {
+import { useEffect, useState } from "react";
+
+const ThemeController = () => {
+  const [isDarkMode, setIsDarkMode] = useState(false);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const theme = localStorage.getItem("theme");
+      if (theme === "dark") {
+        document.documentElement.setAttribute("data-theme", "dark");
+        document.body.classList.add("text-white");
+        setIsDarkMode(true);
+      }
+    }
+  }, []);
+
+  const handleThemeChange = (e) => {
+    if (e.target.checked) {
+      localStorage.setItem("theme", "dark");
+      document.documentElement.setAttribute("data-theme", "dark");
+      document.body.classList.add("text-white");
+      setIsDarkMode(true);
+    } else {
+      localStorage.setItem("theme", "light");
+      document.documentElement.setAttribute("data-theme", "light");
+      document.body.classList.remove("text-white");
+      setIsDarkMode(false);
+    }
+  };
+
   return (
     <div>
       <input
         type="checkbox"
         className="toggle theme-controller"
-        onChange={(e) => {
-          if (e.target.checked) {
-            document
-              .getElementsByTagName("html")[0]
-              .setAttribute("data-theme", "dark");
-            document
-              .getElementsByTagName("body")[0]
-              .classList.add("text-white");
-          } else {
-            document
-              .getElementsByTagName("html")[0]
-              .removeAttribute("data-theme");
-            document
-              .getElementsByTagName("body")[0]
-              .classList.remove("text-white");
-          }
-        }}
+        checked={isDarkMode}
+        onChange={handleThemeChange}
       />
     </div>
   );
 };
 
-export default ThemeContorller;
+export default ThemeController;

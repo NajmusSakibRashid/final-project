@@ -9,7 +9,7 @@ const Page = async ({
   params: { userId, templateId },
   searchParams: { sortBy, orderBy },
 }) => {
-  console.log(sortBy, orderBy);
+  // console.log(sortBy, orderBy);
   const { rows } =
     await sql`select questions.* from questions where questions.template_id = ${templateId} and (questions.hidden is null or questions.hidden=false) order by questions.index`;
   // console.log(rows);
@@ -74,7 +74,7 @@ const Page = async ({
         <h1 className="text-2xl font-bold">Forms you created</h1>
       </div>
       <Sorter path={`${templateId}`}>{rows.map((row) => row.title)}</Sorter>
-      <table className="table bg-gray-300">
+      <table className="table">
         <thead>
           <tr>{table[0]}</tr>
         </thead>

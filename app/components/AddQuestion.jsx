@@ -41,22 +41,34 @@ const AddQuestion = ({ setQuestions, templateId, questions }) => {
       Click Icons below to add a question
       <div className="bg-base-200 p-4 pt-8 rounded-md m-4 w-full max-w-lg border-t-4 border-blue-300 relative flex justify-center items-center gap-8">
         <div className="tooltip" data-tip="Text Area">
-          <button className="btn" onClick={() => addQuestion("textarea")}>
+          <button
+            className="btn bg-base-300"
+            onClick={() => addQuestion("textarea")}
+          >
             <MdOutlineTextSnippet />
           </button>
         </div>
         <div className="tooltip" data-tip="Text">
-          <button className="btn" onClick={() => addQuestion("text")}>
+          <button
+            className="btn bg-base-300"
+            onClick={() => addQuestion("text")}
+          >
             <VscSymbolString />
           </button>
         </div>
         <div className="tooltip" data-tip="Number">
-          <button className="btn" onClick={() => addQuestion("number")}>
+          <button
+            className="btn bg-base-300"
+            onClick={() => addQuestion("number")}
+          >
             <AiOutlineFieldNumber />
           </button>
         </div>
         <div className="tooltip" data-tip="Checkbox">
-          <button className="btn" onClick={() => addQuestion("checkbox")}>
+          <button
+            className="btn bg-base-300"
+            onClick={() => addQuestion("checkbox")}
+          >
             <IoMdCheckboxOutline />
           </button>
         </div>

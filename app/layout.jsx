@@ -26,6 +26,9 @@ export const metadata = {
   description: "Created for iTransition Final Project",
 };
 
+import Image from "next/image";
+import logo from "./public/logo.png";
+
 export default function RootLayout({ children }) {
   const cookieStore = cookies();
   const token = cookieStore.get("token")?.value;
@@ -35,11 +38,10 @@ export default function RootLayout({ children }) {
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-base-100 mb-[200px]`}
       >
-        <ThemeController />
-        <div className="flex justify-between bg-base-100 p-8 flex-wrap gap-2">
-          <div className="flex gap-4">
+        <div className="flex justify-between bg-base-100 p-8 flex-wrap gap-2 items-center">
+          <div className="flex gap-4 items-center">
             <Link href="/lobby">
-              <button className="btn">Lobby</button>
+              <Image src={logo} width={100}></Image>
             </Link>
             {decoded?.admin && (
               <Link href={`/${decoded.id}/admin-panel`}>
@@ -49,6 +51,8 @@ export default function RootLayout({ children }) {
           </div>
 
           <Search />
+
+          <ThemeController />
 
           {token ? (
             <div className="flex gap-4">
