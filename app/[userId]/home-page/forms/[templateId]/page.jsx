@@ -11,7 +11,7 @@ const Page = async ({
 }) => {
   console.log(sortBy, orderBy);
   const { rows } =
-    await sql`select questions.* from questions where questions.template_id = ${templateId} order by questions.index`;
+    await sql`select questions.* from questions where questions.template_id = ${templateId} and (questions.hidden is null or questions.hidden=false) order by questions.index`;
   // console.log(rows);
   const { rows: answers } = await sql`
     select
@@ -39,7 +39,7 @@ const Page = async ({
     on
         users1.id=forms.owner
     where
-        forms.template_id=${templateId} and forms.owner=${userId}
+        forms.template_id=${templateId} and forms.owner=${userId} and (questions.hidden is null or questions.hidden=false)
     group by
         forms.id,forms.date,users1.username`;
   // console.log(answers);

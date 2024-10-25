@@ -3,7 +3,7 @@ import { EmptyComponent } from "../../../../components/EmptyComponent";
 
 const Page = async ({ params: { userId, templateId } }) => {
   const { rows } =
-    await sql`select questions.* from questions where questions.template_id = ${templateId} order by questions.index`;
+    await sql`select questions.* from questions where questions.template_id = ${templateId} and (questions.hidden is null or questions.hidden=false) order by questions.index`;
   // console.log(rows);
   const { rows: answers } = await sql.query(`
     select
@@ -31,7 +31,7 @@ const Page = async ({ params: { userId, templateId } }) => {
     on
         users1.id=forms.owner
     where
-        forms.template_id=${templateId}
+        forms.template_id=${templateId} and (questions.hidden is null or questions.hidden=false)
     group by
         forms.id,forms.date,users1.username
   `);

@@ -61,7 +61,7 @@ export async function PUT(request) {
         },
         { status: 401 }
       );
-    await sql`update questions set title=${data.title},description=${data.description},type=${data.type},edit=${data.edit} where id=${data.id}`;
+    await sql`update questions set title=${data.title},description=${data.description},type=${data.type},edit=${data.edit},hidden=${data.hidden} where id=${data.id}`;
     return NextResponse.json({ message: "Question updated" });
   } catch (error) {
     console.log(error);

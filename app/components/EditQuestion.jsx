@@ -15,14 +15,22 @@ const EditQuestion = ({
   templateId,
 }) => {
   const [drag, setDrag] = useState(false);
-  const { id, title, description, type } = children;
+  const { id, title, description, type, hidden } = children;
   const handleChange = (e) => {
+    console.log(e.target.name, e.target.checked);
     setQuestions((question) => {
       const newQuestions = [...question];
-      newQuestions[index] = {
-        ...newQuestions[index],
-        [e.target.name]: e.target.value,
-      };
+      if (e.target.name === "hidden") {
+        newQuestions[index] = {
+          ...newQuestions[index],
+          hidden: e.target.checked,
+        };
+      } else {
+        newQuestions[index] = {
+          ...newQuestions[index],
+          [e.target.name]: e.target.value,
+        };
+      }
       return newQuestions;
     });
   };
@@ -60,6 +68,7 @@ const EditQuestion = ({
         onClick={() => {
           try {
             const putData = async (question) => {
+              console.log(question);
               await axios.put("/api/questions", question);
             };
             setQuestions((question) => {
@@ -118,6 +127,20 @@ const EditQuestion = ({
         <div className="bg-base-200 capitalize w-full max-w-64 p-2 border-b border-gray-300 rounded-md focus:bg-base-300 focus:outline-none flex justify-between items-center">
           {type}
           <FaLock />
+        </div>
+      </div>
+      <div className="mb-2 flex justify-between w-full items-center">
+        <label htmlFor="hidden">Hidden</label>
+        <div className="w-full max-w-64 p-2 border-b border-gray-300 rounded-md flex gap-2 items-center">
+          <input
+            type="checkbox"
+            id="hidden"
+            name="hidden"
+            // defaultValue={hidden}
+            checked={hidden}
+            onChange={handleChange}
+          />
+          Hide the question
         </div>
       </div>
       <div className="w-full flex justify-end">
