@@ -45,7 +45,7 @@ const Page = async ({
           "templates.topic",
         ]}
       </Sorter>
-      <table className="table bg-gray-300">
+      <table className="table">
         <thead>
           <tr>{headers}</tr>
         </thead>

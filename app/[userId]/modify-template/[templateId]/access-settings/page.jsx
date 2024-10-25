@@ -85,7 +85,7 @@ const Page = ({ params }) => {
       <div>
         <h1 className="text-2xl font-bold mt-4">Access Settings</h1>
       </div>
-      <div className="flex flex-col max-w-lg w-full justify-between bg-white items-center p-4 m-4 rounded-md border-t-4 border-blue-300">
+      <div className="flex flex-col max-w-lg w-full justify-between bg-base-100 items-center p-4 m-4 rounded-md border-t-4 border-blue-300">
         <div className="grid grid-cols-2 gap-2">
           <div>
             <input

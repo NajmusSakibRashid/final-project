@@ -60,7 +60,7 @@ const Page = async ({ params: { userId, templateId } }) => {
       <div className="flex justify-center p-8">
         <h1 className="text-2xl font-bold">Responses</h1>
       </div>
-      <table className="table bg-gray-300">
+      <table className="table">
         <thead>
           <tr>{table[0]}</tr>
         </thead>

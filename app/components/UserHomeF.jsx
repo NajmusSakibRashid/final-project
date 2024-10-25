@@ -17,15 +17,15 @@ const UserHomeF = ({ userId }) => {
     <div className="flex">
       <button
         onClick={createTemplate}
-        className="p-4 bg-yellow-100 rounded-2xl rounded-r-none m-px mt-4 min-w-44 text-center active:bg-yellow-200"
+        className="p-4 bg-base-200 rounded-2xl rounded-r-none m-px mt-4 min-w-44 text-center active:bg-base-200"
       >
         Create Template
       </button>
       <details className="dropdown">
-        <summary className="cursor-pointer p-4 bg-yellow-100 rounded-2xl rounded-l-none m-px mt-4 min-w-44 text-center active:bg-yellow-200">
+        <summary className="cursor-pointer p-4 bg-base-200 rounded-2xl rounded-l-none m-px mt-4 min-w-44 text-center active:bg-base-200">
           Sort by
         </summary>
-        <ul className="menu dropdown-content bg-base-100 rounded-box z-[1] w-auto min-w-96 p-2 shadow border-2 border-gray-300">
+        <ul className="menu dropdown-content bg-base-200 rounded-box z-[1] w-auto min-w-96 p-2 shadow border-2 border-gray-300">
           <li className="grid grid-cols-3 items-center gap-2 border-b-[1px] border-gray-300 justify-around">
             <div>Id</div>
             <div className="btn m-2">
@@ -73,7 +73,7 @@ const UserHomeF = ({ userId }) => {
           </li>
         </ul>
       </details>
-      {/* <button className="p-4 bg-yellow-100 rounded-2xl rounded-l-none m-px mt-4 min-w-44 text-center active:bg-yellow-200">
+      {/* <button className="p-4 bg-base-200 rounded-2xl rounded-l-none m-px mt-4 min-w-44 text-center active:bg-base-200">
         Sort by
       </button> */}
     </div>

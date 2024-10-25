@@ -32,7 +32,7 @@ const Page = () => {
   };
 
   return (
-    <div className="fixed inset-0 flex justify-center items-center bg-gray-300 min-w-96">
+    <div className="fixed inset-0 flex justify-center items-center bg-base-100 min-w-96">
       <div className="card bg-base-300 p-4">
         <h1 className="text-2xl">Sign Up</h1>
         <form onSubmit={handleSubmit}>

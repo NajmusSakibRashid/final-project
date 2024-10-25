@@ -27,7 +27,7 @@ const Search = () => {
         >
           Search
         </button>
-        <ul className="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
+        <ul className="dropdown-content menu bg-base-200 rounded-box z-[1] w-52 p-2 shadow">
           {(searchResults.length &&
             searchResults.map((result, index) => (
               <li key={index}>

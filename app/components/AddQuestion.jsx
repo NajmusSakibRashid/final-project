@@ -39,7 +39,7 @@ const AddQuestion = ({ setQuestions, templateId, questions }) => {
   return (
     <>
       Click Icons below to add a question
-      <div className="bg-white p-4 pt-8 rounded-md m-4 w-full max-w-lg border-t-4 border-blue-300 relative flex justify-center items-center gap-8">
+      <div className="bg-base-200 p-4 pt-8 rounded-md m-4 w-full max-w-lg border-t-4 border-blue-300 relative flex justify-center items-center gap-8">
         <div className="tooltip" data-tip="Text Area">
           <button className="btn" onClick={() => addQuestion("textarea")}>
             <MdOutlineTextSnippet />

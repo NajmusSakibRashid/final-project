@@ -48,7 +48,7 @@ const EditQuestion = ({
   };
   return (
     <div
-      className="bg-white p-4 pt-9 rounded-md m-4 w-full max-w-lg border-t-4 border-blue-300 relative"
+      className="bg-base-200 p-4 pt-9 rounded-md m-4 w-full max-w-lg border-t-4 border-blue-300 relative"
       draggable={(mode === "edit" && drag) || false}
       onDragEnd={(e) => {
         dragHandle(e, index);

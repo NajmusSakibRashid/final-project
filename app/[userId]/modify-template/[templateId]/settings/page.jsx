@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 
 const Tag = ({ children, setData, index }) => {
   return (
-    <div className="bg-white p-2 rounded-md flex items-center gap-2">
+    <div className="bg-base-100 p-2 rounded-md flex items-center gap-2">
       {children}
       <button
         onClick={() => {

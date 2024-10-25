@@ -4,10 +4,10 @@ const UserHomeF = ({ children, path }) => {
   return (
     <div className="flex justify-center">
       <details className="dropdown">
-        <summary className="cursor-pointer p-4 bg-yellow-100 rounded-2xl m-px mt-4 min-w-44 text-center active:bg-yellow-200">
+        <summary className="cursor-pointer p-4 bg-base-200 rounded-2xl m-px mt-4 min-w-44 text-center active:bg-base-200">
           Sort by
         </summary>
-        <ul className="menu dropdown-content translate-x--1/2 bg-base-100 rounded-box z-[1] w-auto min-w-[48rem] p-2 shadow border-2 border-gray-300">
+        <ul className="menu dropdown-content translate-x--1/2 bg-base-200 rounded-box z-[1] w-auto min-w-[48rem] p-2 shadow border-2 border-gray-300">
           {children.map((child, index) => (
             <li
               key={index}

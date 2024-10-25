@@ -3,7 +3,7 @@ import Link from "next/link";
 const TemplateCard = ({ children }) => {
   // console.log(children);
   return (
-    <div className="card bg-base-100 w-full shadow-xl">
+    <div className="card bg-base-200 w-full shadow-xl">
       <figure>
         <img
           className="h-48 w-full object-cover"

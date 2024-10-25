@@ -8,6 +8,7 @@ import { cookies } from "next/headers";
 import Link from "next/link";
 import jwt from "jsonwebtoken";
 import Search from "./components/Search";
+import ThemeController from "./components/ThemeController";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -32,8 +33,9 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gray-300 mb-[200px]`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-base-100 mb-[200px]`}
       >
+        <ThemeController />
         <div className="flex justify-between bg-base-100 p-8 flex-wrap gap-2">
           <div className="flex gap-4">
             <Link href="/lobby">
