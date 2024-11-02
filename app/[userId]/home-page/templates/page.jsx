@@ -90,7 +90,7 @@ const Page = async ({ params, searchParams }) => {
   };
 
   return (
-    <div className="overflow-x-auto">
+    <div>
       <div className="flex justify-center p-8">
         <h1 className="text-2xl font-bold">Templates you created</h1>
       </div>
